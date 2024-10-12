@@ -50,41 +50,7 @@ class Ball(PhysicsObject):
 
 
     def check_collision(self, wall_image):
-        ball_radius = 20
-
-        def check_pixel_collision(x, y):
-            if 0 <= x < WIDTH and 0 <= y < HEIGHT:
-                return wall_image.get_at((x, y)) != WHITE
-            return False
-
-        def find_collision_normal():
-            for distance in range(1, ball_radius + 1):
-                for angle in range(0, 360, 5):  # Check every 5 degrees
-                    rad = np.radians(angle)
-                    check_x = int(self.position[0] + (distance * np.cos(rad)))
-                    check_y = int(self.position[1] + (distance * np.sin(rad)))
-                    if check_pixel_collision(check_x, check_y):
-                        # The normal is the direction opposite to the angle
-                        normal_x = -np.cos(rad)
-                        normal_y = -np.sin(rad)
-                        return np.array([normal_x, normal_y])
-            return None
-        def check_for_main_ball_collision():
-            for distance in range(1, ball_radius + 1):
-                for angle in range(0, 360, 5):
-                    rad = np.radians(angle)
-                    check_x = int(self.position[0] + (distance * np.cos(rad)))
-                    check_y = int(self.position[1] + (distance * np.sin(rad)))
-                    if check_pixel_collision(check_x, check_y):
-                        return True
-        # Check for main ball collision
-        normal = find_collision_normal()
-        if normal is not None:
-            # Reflect the velocity based on the collision normal
-            self.velocity -= 1.6 * np.dot(self.velocity, normal) * normal
-            # Ensure ball moves out of the collision area
-            if check_for_main_ball_collision():
-                self.position += normal *5
+        
 
 class Wall:
     def __init__(self, image):
